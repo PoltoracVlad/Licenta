@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ public class Register extends AppCompatActivity {
     EditText firstName, lastName, email, password, phone;
     Button registerBtn;
     TextView goToLogin;
+    CheckBox normalUserCheckbox;
     boolean valid = true;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
@@ -42,6 +44,7 @@ public class Register extends AppCompatActivity {
         phone = findViewById(R.id.registerPhone);
         registerBtn = findViewById(R.id.registerBtn);
         goToLogin = findViewById(R.id.rediLoginTv);
+        normalUserCheckbox = findViewById(R.id.isNormalUser);
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -55,20 +58,11 @@ public class Register extends AppCompatActivity {
                     firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                            Toast.makeText(Register.this, "Account Created", Toast.LENGTH_SHORT).show();
-                            DocumentReference df = firebaseFirestore.collection("Normal Users").document(firebaseUser.getUid());
-                            Map<String, Object> userInfo = new HashMap<>();
-                            userInfo.put("FirstName", firstName.getText().toString());
-                            userInfo.put("LastName", lastName.getText().toString());
-                            userInfo.put("UserEmail", email.getText().toString());
-                            userInfo.put("PhoneNumber", phone.getText().toString());
-
-                            userInfo.put("isNormalUser", "1");
-                            df.set(userInfo);
-
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                            finish();
+                            if (normalUserCheckbox.isChecked()) {
+                                registering("Normal Users", "isNormalUser");
+                            } else {
+                                registering("Medical Users", "isMedicalUser");
+                            }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -85,8 +79,7 @@ public class Register extends AppCompatActivity {
         goToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), Login.class);
-                startActivity(i);
+                startActivity(new Intent(getApplicationContext(), Login.class));
             }
         });
     }
@@ -100,5 +93,22 @@ public class Register extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    public void registering(String collectionPath, String typeOfUser) {
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        Toast.makeText(Register.this, "Account Created", Toast.LENGTH_SHORT).show();
+        DocumentReference df = firebaseFirestore.collection(collectionPath).document(firebaseUser.getUid());
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("FirstName", firstName.getText().toString());
+        userInfo.put("LastName", lastName.getText().toString());
+        userInfo.put("UserEmail", email.getText().toString());
+        userInfo.put("PhoneNumber", phone.getText().toString());
+
+        userInfo.put(typeOfUser, "1");
+        df.set(userInfo);
+
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
     }
 }
