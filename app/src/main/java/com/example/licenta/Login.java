@@ -59,9 +59,7 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                            checkUserAccessLevel(authResult.getUser().getUid());
-                            startActivity(new Intent(getApplicationContext(), NormalUser.class));
-                            finish();
+                            checkTypeOfUser(authResult.getUser().getUid());
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -74,14 +72,13 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void checkUserAccessLevel(String uid) {
+    private void checkTypeOfUser(String uid) {
         DocumentReference df = firebaseFirestore.collection("Normal Users").document(uid);
-        DocumentReference df1 = firebaseFirestore.collection("MedicalUsers").document(uid);
+        DocumentReference df1 = firebaseFirestore.collection("Medical Users").document(uid);
 
         df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Log.d("TAG", "onSuccess: " + documentSnapshot.getData());
                 if (documentSnapshot.getString("isNormalUser") != null) {
                     startActivity(new Intent(getApplicationContext(), NormalUser.class));
                     finish();
@@ -92,7 +89,6 @@ public class Login extends AppCompatActivity {
         df1.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Log.d("TAG", "onSuccess: " + documentSnapshot.getData());
                 if (documentSnapshot.getString("isMedicalUser") != null) {
                     startActivity(new Intent(getApplicationContext(), MedicalUser.class));
                     finish();

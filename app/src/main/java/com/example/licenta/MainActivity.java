@@ -4,37 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    TextView welcomeMessage;
-    Button loginBtn, registerBtn;
+    private static int TIME_OUT = 5000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        welcomeMessage = findViewById(R.id.textView);
-        loginBtn = findViewById(R.id.button);
-        registerBtn = findViewById(R.id.button2);
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), Login.class);
+            public void run() {
+                Intent i = new Intent(MainActivity.this, Login.class);
                 startActivity(i);
+                finish();
             }
-        });
-
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), Register.class);
-                startActivity(i);
-            }
-        });
+        }, TIME_OUT);
     }
 }
