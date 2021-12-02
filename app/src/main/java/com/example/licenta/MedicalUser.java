@@ -1,7 +1,6 @@
 package com.example.licenta;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 public class MedicalUser extends AppCompatActivity {

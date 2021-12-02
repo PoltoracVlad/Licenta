@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -60,9 +59,9 @@ public class Register extends AppCompatActivity {
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             if (normalUserCheckbox.isChecked()) {
-                                registering("Normal Users", "isNormalUser");
+                                registering("NormalUser");
                             } else {
-                                registering("Medical Users", "isMedicalUser");
+                                registering("MedicalUser");
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -96,17 +95,16 @@ public class Register extends AppCompatActivity {
         return valid;
     }
 
-    public void registering(String collectionPath, String typeOfUser) {
+    public void registering(String typeOfUser) {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         Toast.makeText(Register.this, "Account Created", Toast.LENGTH_SHORT).show();
-        DocumentReference df = firebaseFirestore.collection(collectionPath).document(firebaseUser.getUid());
+        DocumentReference df = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("FirstName", firstName.getText().toString());
         userInfo.put("LastName", lastName.getText().toString());
         userInfo.put("UserEmail", email.getText().toString());
         userInfo.put("PhoneNumber", phone.getText().toString());
-
-        userInfo.put(typeOfUser, "1");
+        userInfo.put("TypeOfUser", typeOfUser);
         df.set(userInfo);
 
         startActivity(new Intent(getApplicationContext(), MainActivity.class));

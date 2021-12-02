@@ -11,10 +11,12 @@
         android:theme="@style/Theme.Licenta">
         <activity
             android:name=".NormalUser"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.Licenta.NoActionBar" />
         <activity
             android:name=".MedicalUser"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.Licenta.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -2,19 +2,15 @@ package com.example.licenta;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -73,25 +69,16 @@ public class Login extends AppCompatActivity {
     }
 
     private void checkTypeOfUser(String uid) {
-        DocumentReference df = firebaseFirestore.collection("Normal Users").document(uid);
-        DocumentReference df1 = firebaseFirestore.collection("Medical Users").document(uid);
-
+        DocumentReference df = firebaseFirestore.collection("Users").document(uid);
         df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.getString("isNormalUser") != null) {
+                String document = documentSnapshot.getString("TypeOfUser");
+                if (document.equals("NormalUser")) {
                     startActivity(new Intent(getApplicationContext(), NormalUser.class));
-                    finish();
                 }
-            }
-        });
-
-        df1.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.getString("isMedicalUser") != null) {
+                else if (document.equals("MedicalUser")) {
                     startActivity(new Intent(getApplicationContext(), MedicalUser.class));
-                    finish();
                 }
             }
         });
