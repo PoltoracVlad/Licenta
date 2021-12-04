@@ -107,7 +107,7 @@ public class Register extends AppCompatActivity {
         userInfo.put("TypeOfUser", typeOfUser);
         df.set(userInfo);
 
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        startActivity(new Intent(getApplicationContext(), Login.class));
         finish();
     }
 }
