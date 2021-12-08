@@ -9,11 +9,22 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class NormalUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser currentUser;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +48,8 @@ public class NormalUser extends AppCompatActivity implements NavigationView.OnNa
                     new SendLocationFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_location);
         }
+
+        updateNavHeader();
     }
 
     @Override
@@ -70,6 +83,22 @@ public class NormalUser extends AppCompatActivity implements NavigationView.OnNa
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    public void updateNavHeader() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navFirstName = headerView.findViewById(R.id.nav_first_name);
+        TextView navEmail = headerView.findViewById(R.id.nav_email);
+
+        if (currentUser != null) {
+            navFirstName.setText(currentUser.getDisplayName());
+            navEmail.setText(currentUser.getEmail());
         }
     }
 }
