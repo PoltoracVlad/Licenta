@@ -8,9 +8,13 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,11 +23,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class NormalUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    private int back_pressed = 0;
     FirebaseAuth firebaseAuth;
     FirebaseUser currentUser;
+    FirebaseFirestore firebaseFirestore;
     DatabaseReference databaseReference;
 
     @Override
@@ -82,8 +91,23 @@ public class NormalUser extends AppCompatActivity implements NavigationView.OnNa
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (back_pressed >= 1) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+            else {
+                Toast.makeText(getBaseContext(), "Press once again to exit", Toast.LENGTH_SHORT).show();
+                back_pressed++;
+            }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     public void updateNavHeader() {
@@ -100,5 +124,22 @@ public class NormalUser extends AppCompatActivity implements NavigationView.OnNa
             navFirstName.setText(currentUser.getDisplayName());
             navEmail.setText(currentUser.getEmail());
         }
+    }
+
+    public String getFirstName() {
+        final String[] firstName = new String[1];
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        DocumentReference df = firebaseFirestore.collection("Users").document(currentUser.getUid());
+        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String document = documentSnapshot.getString("FirstName");
+                firstName[0] = document;
+                Log.d("First Name: ", firstName[0]);
+            }
+        });
+        return firstName[0];
     }
 }
