@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.Licenta.NoActionBar">
@@ -20,7 +21,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="Theme.Licenta.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Licenta.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
 
-    <style name="Theme.Licenta.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.Licenta.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
