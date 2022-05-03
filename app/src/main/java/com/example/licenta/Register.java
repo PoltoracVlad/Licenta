@@ -1,18 +1,13 @@
 package com.example.licenta;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -46,42 +41,27 @@ public class Register extends AppCompatActivity {
         goToLogin = findViewById(R.id.rediLoginTv);
         normalUserCheckbox = findViewById(R.id.isNormalUser);
 
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                checkField(firstName);
-                checkField(lastName);
-                checkField(email);
-                checkField(password);
-                checkField(phone);
+        registerBtn.setOnClickListener(v -> {
+            checkField(firstName);
+            checkField(lastName);
+            checkField(email);
+            checkField(password);
+            checkField(phone);
 
-                if (valid) {
-                    firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            if (normalUserCheckbox.isChecked()) {
-                                registering("NormalUser");
-                            } else {
-                                registering("MedicalUser");
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Register.this, "Failed to Create Account", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    Toast.makeText(Register.this, "Please complete all the fields!", Toast.LENGTH_SHORT).show();
-                }
+            if (valid) {
+                firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnSuccessListener(authResult -> {
+                    if (normalUserCheckbox.isChecked()) {
+                        registering("NormalUser");
+                    } else {
+                        registering("MedicalUser");
+                    }
+                }).addOnFailureListener(e -> Toast.makeText(Register.this, "Failed to Create Account", Toast.LENGTH_SHORT).show());
+            } else {
+                Toast.makeText(Register.this, "Please complete all the fields!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        goToLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Login.class));
-            }
-        });
+        goToLogin.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), Login.class)));
     }
 
     public boolean checkField(EditText textField) {
