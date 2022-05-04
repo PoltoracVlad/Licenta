@@ -1,12 +1,14 @@
 package com.example.licenta;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,8 +56,7 @@ public class Login extends AppCompatActivity {
             String document = documentSnapshot.getString("TypeOfUser");
             if (document.equals("NormalUser")) {
                 startActivity(new Intent(getApplicationContext(), NormalUser.class));
-            }
-            else if (document.equals("MedicalUser")) {
+            } else if (document.equals("MedicalUser")) {
                 startActivity(new Intent(getApplicationContext(), MedicalUser.class));
             }
         });

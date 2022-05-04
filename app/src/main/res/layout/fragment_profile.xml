@@ -2,157 +2,157 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_gravity="center_horizontal">
+    android:padding="16dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
         android:text="Profile"
         android:textAlignment="center"
-        android:textSize="25sp"
         android:textColor="@color/white"
-        android:layout_marginTop="35dp" />
+        android:textSize="25sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginRight="15dp"
         android:text="First Name"
         android:textColor="@color/white"
-        android:textSize="13sp"
-        android:layout_marginTop="55dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/firstNameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/purple_500"
-        android:textSize="19sp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/purple_500"
+        android:textSize="19sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="7dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="15dp"
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginRight="15dp"
         android:text="Last Name"
         android:textColor="@color/white"
-        android:textSize="13sp"
-        android:layout_marginTop="55dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/lastNameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/purple_500"
-        android:textSize="19sp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/purple_500"
+        android:textSize="19sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="7dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="15dp"
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="15dp"
         android:text="Email"
         android:textColor="@color/white"
-        android:textSize="13sp"
-        android:layout_marginTop="45dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/emailInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/purple_500"
-        android:textSize="19sp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/purple_500"
+        android:textSize="19sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="7dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="15dp"
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="15dp"
         android:text="Phone Number"
         android:textColor="@color/white"
-        android:textSize="13sp"
-        android:layout_marginTop="45dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/phoneNumberInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/purple_500"
-        android:textSize="19sp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/purple_500"
+        android:textSize="19sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="7dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="15dp"
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="15dp"
         android:text="Emergency Phone Number"
         android:textColor="@color/white"
-        android:textSize="13sp"
-        android:layout_marginTop="45dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/emergencyPhoneNumberInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/purple_500"
-        android:textSize="19sp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/purple_500"
+        android:textSize="19sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="7dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="15dp"
+        android:background="@android:color/darker_gray" />
 
 </LinearLayout>

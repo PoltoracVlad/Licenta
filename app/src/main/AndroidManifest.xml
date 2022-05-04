@@ -19,10 +19,12 @@
             android:name=".NormalUser"
             android:exported="true"
             android:theme="@style/Theme.Licenta.NoActionBar" />
+
         <activity
             android:name=".MedicalUser"
             android:exported="true"
             android:theme="@style/Theme.Licenta.NoActionBar" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -32,13 +34,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Register" />
+
         <activity android:name=".Login" />
 
         <service
             android:name="MainActivity"
             android:foregroundServiceType="location">
         </service>
+
     </application>
 
 </manifest>

@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_gravity="center_horizontal">
+    android:padding="16dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
         android:text="Medical Profile"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="25sp"
-        android:layout_marginTop="35dp" />
+        android:textSize="25sp" />
 
 </LinearLayout>

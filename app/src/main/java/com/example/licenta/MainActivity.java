@@ -1,9 +1,11 @@
 package com.example.licenta;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 String document = documentSnapshot.getString("TypeOfUser");
                 if (document.equals("NormalUser")) {
                     startActivity(new Intent(MainActivity.this, NormalUser.class));
-                }
-                else if (document.equals("MedicalUser")) {
+                } else if (document.equals("MedicalUser")) {
                     startActivity(new Intent(MainActivity.this, MedicalUser.class));
                 }
             });
