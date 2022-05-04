@@ -7,7 +7,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.telephony.SmsManager;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,7 @@ import java.util.Locale;
 public class SendLocationFragment extends Fragment {
 
     Button btnLocation;
-    TextView txt1, txt2, txt3, txt4, txt5;
+    TextView latitude, longitude, country, locality, address;
     FusedLocationProviderClient fusedLocationProviderClient;
     String phoneNumber;
 
@@ -49,11 +48,11 @@ public class SendLocationFragment extends Fragment {
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         btnLocation = getView().findViewById(R.id.btn_location);
-        txt1 = getView().findViewById(R.id.txt_location1);
-        txt2 = getView().findViewById(R.id.txt_location2);
-        txt3 = getView().findViewById(R.id.txt_location3);
-        txt4 = getView().findViewById(R.id.txt_location4);
-        txt5 = getView().findViewById(R.id.txt_location5);
+        latitude = getView().findViewById(R.id.latitudeInput);
+        longitude = getView().findViewById(R.id.longitudeInput);
+        country = getView().findViewById(R.id.countryInput);
+        locality = getView().findViewById(R.id.localityInput);
+        address = getView().findViewById(R.id.addressInput);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -98,31 +97,14 @@ public class SendLocationFragment extends Fragment {
             if (location != null) {
                 try {
                     Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
-                    List<Address> addresses = geocoder.getFromLocation(
-                            location.getLatitude(), location.getLongitude(), 1
-                    );
-                    txt1.setText(Html.fromHtml(
-                            "<font color='#6200EE'><b>Latitude: </b><br></font>"
-                                    + addresses.get(0).getLatitude()
-                    ));
-                    txt2.setText(Html.fromHtml(
-                            "<font color='#6200EE'><b>Longitude: </b><br></font>"
-                                    + addresses.get(0).getLongitude()
-                    ));
-                    txt3.setText(Html.fromHtml(
-                            "<font color='#6200EE'><b>Country: </b><br></font>"
-                                    + addresses.get(0).getCountryName()
-                    ));
-                    txt4.setText(Html.fromHtml(
-                            "<font color='#6200EE'><b>Locality: </b><br></font>"
-                                    + addresses.get(0).getLocality()
-                    ));
-                    txt5.setText(Html.fromHtml(
-                            "<font color='#6200EE'><b>Address: </b><br></font>"
-                                    + addresses.get(0).getAddressLine(0)
-                    ));
+                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                    latitude.setText(Double.toString(addresses.get(0).getLatitude()));
+                    longitude.setText(Double.toString(addresses.get(0).getLongitude()));
+                    country.setText(addresses.get(0).getCountryName());
+                    locality.setText(addresses.get(0).getLocality());
+                    address.setText(addresses.get(0).getAddressLine(0));
 
-                    String SMS = "I need your help, I just had a car accident! Here is my location:\n" + "\nLatitude: " + addresses.get(0).getLatitude() + "\nLongitude: " + addresses.get(0).getLongitude() + "\nCountry: " + addresses.get(0).getCountryName() + "\nLocality: " + addresses.get(0).getLocality();
+                    String SMS = "I need your help, I just had an accident and I'm injured! Here is my location:\n" + "\nLatitude: " + addresses.get(0).getLatitude() + "\nLongitude: " + addresses.get(0).getLongitude() + "\nCountry: " + addresses.get(0).getCountryName() + "\nLocality: " + addresses.get(0).getLocality();
                     String phone = phoneNumber;
 
                     try {
