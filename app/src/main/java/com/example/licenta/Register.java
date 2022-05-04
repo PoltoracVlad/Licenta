@@ -10,13 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Register extends AppCompatActivity {
-    EditText firstName, lastName, email, password, phone;
+
+    EditText firstName, lastName, email, password, phone, emergencyPhone;
     Button registerBtn;
     TextView goToLogin;
     CheckBox normalUserCheckbox;
@@ -37,6 +39,7 @@ public class Register extends AppCompatActivity {
         email = findViewById(R.id.registerEmail);
         password = findViewById(R.id.registerPassword);
         phone = findViewById(R.id.registerPhone);
+        emergencyPhone = findViewById(R.id.registerEmergencyPhone);
         registerBtn = findViewById(R.id.registerBtn);
         goToLogin = findViewById(R.id.rediLoginTv);
         normalUserCheckbox = findViewById(R.id.isNormalUser);
@@ -47,6 +50,7 @@ public class Register extends AppCompatActivity {
             checkField(email);
             checkField(password);
             checkField(phone);
+            checkField(emergencyPhone);
 
             if (valid) {
                 firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnSuccessListener(authResult -> {
@@ -84,6 +88,7 @@ public class Register extends AppCompatActivity {
         userInfo.put("LastName", lastName.getText().toString());
         userInfo.put("UserEmail", email.getText().toString());
         userInfo.put("PhoneNumber", phone.getText().toString());
+        userInfo.put("EmergencyPhoneNumber", emergencyPhone.getText().toString());
         userInfo.put("TypeOfUser", typeOfUser);
         df.set(userInfo);
 

@@ -10,6 +10,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
+
     private static int TIME_OUT = 3000;
     FirebaseUser currentUser;
     FirebaseFirestore firebaseFirestore;

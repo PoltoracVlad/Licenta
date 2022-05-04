@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginVertical="70dp"
+        android:layout_marginVertical="60dp"
         android:textSize="26sp"
         android:textAlignment="center"
         android:text="Sign Up"
@@ -22,7 +22,7 @@
 
     <View
         android:layout_width="0dp"
-        android:layout_height="560dp"
+        android:layout_height="600dp"
         android:background="@drawable/border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -121,10 +121,29 @@
         android:background="@drawable/custom_edit_text"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/isNormalUser"
+        app:layout_constraintBottom_toTopOf="@+id/registerEmergencyPhone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerPassword"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <EditText
+        android:id="@+id/registerEmergencyPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginVertical="10dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:hint="Emergency Phone Number"
+        android:textColorHint="@color/black"
+        android:background="@drawable/custom_edit_text"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/isNormalUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerPhone"
         app:layout_constraintVertical_chainStyle="packed"/>
 
     <CheckBox
@@ -137,7 +156,7 @@
         app:layout_constraintBottom_toTopOf="@+id/registerBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerPhone"
+        app:layout_constraintTop_toBottomOf="@+id/registerEmergencyPhone"
         app:layout_constraintVertical_chainStyle="packed"/>
 
     <Button

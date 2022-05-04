@@ -21,6 +21,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -30,6 +35,11 @@ public class SendLocationFragment extends Fragment {
     Button btnLocation;
     TextView txt1, txt2, txt3, txt4, txt5;
     FusedLocationProviderClient fusedLocationProviderClient;
+    String phoneNumber;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    FirebaseFirestore firebaseFirestore;
 
     @Nullable
     @Override
@@ -38,12 +48,29 @@ public class SendLocationFragment extends Fragment {
     }
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        btnLocation = (Button) getView().findViewById(R.id.btn_location);
-        txt1 = (TextView) getView().findViewById(R.id.txt_location1);
-        txt2 = (TextView) getView().findViewById(R.id.txt_location2);
-        txt3 = (TextView) getView().findViewById(R.id.txt_location3);
-        txt4 = (TextView) getView().findViewById(R.id.txt_location4);
-        txt5 = (TextView) getView().findViewById(R.id.txt_location5);
+        btnLocation = getView().findViewById(R.id.btn_location);
+        txt1 = getView().findViewById(R.id.txt_location1);
+        txt2 = getView().findViewById(R.id.txt_location2);
+        txt3 = getView().findViewById(R.id.txt_location3);
+        txt4 = getView().findViewById(R.id.txt_location4);
+        txt5 = getView().findViewById(R.id.txt_location5);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        if (firebaseUser != null) {
+            DocumentReference df = firebaseFirestore.collection("Users").document(firebaseUser.getUid());
+            df.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot != null) {
+                        phoneNumber = documentSnapshot.getString("EmergencyPhoneNumber");
+                    }
+                }
+            });
+        }
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
         btnLocation.setOnClickListener(v -> {
@@ -65,6 +92,7 @@ public class SendLocationFragment extends Fragment {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
             Location location = task.getResult();
             if (location != null) {
@@ -94,12 +122,12 @@ public class SendLocationFragment extends Fragment {
                                     + addresses.get(0).getAddressLine(0)
                     ));
 
-                    String phoneNumber = "+40744588005";
                     String SMS = "I need your help, I just had a car accident! Here is my location:\n" + "\nLatitude: " + addresses.get(0).getLatitude() + "\nLongitude: " + addresses.get(0).getLongitude() + "\nCountry: " + addresses.get(0).getCountryName() + "\nLocality: " + addresses.get(0).getLocality();
+                    String phone = phoneNumber;
 
                     try {
                         SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendTextMessage(phoneNumber, null, SMS, null, null);
+                        smsManager.sendTextMessage(phone, null, SMS, null, null);
                         Toast.makeText(getActivity(), "Message sent", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();

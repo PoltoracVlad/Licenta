@@ -8,28 +8,24 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class NormalUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
     private DrawerLayout drawer;
     private int back_pressed = 0;
     FirebaseAuth firebaseAuth;
     FirebaseUser currentUser;
     FirebaseFirestore firebaseFirestore;
-    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +105,7 @@ public class NormalUser extends AppCompatActivity implements NavigationView.OnNa
     public void updateNavHeader() {
         firebaseAuth = FirebaseAuth.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
@@ -117,25 +113,17 @@ public class NormalUser extends AppCompatActivity implements NavigationView.OnNa
         TextView navEmail = headerView.findViewById(R.id.nav_email);
 
         if (currentUser != null) {
-            navFirstName.setText(currentUser.getDisplayName());
             navEmail.setText(currentUser.getEmail());
+            DocumentReference df = firebaseFirestore.collection("Users").document(currentUser.getUid());
+            df.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot != null) {
+                        String fName = documentSnapshot.getString("FirstName");
+                        navFirstName.setText(fName);
+                    }
+                }
+            });
         }
-    }
-
-    public String getFirstName() {
-        final String[] firstName = new String[1];
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-
-        DocumentReference df = firebaseFirestore.collection("Users").document(currentUser.getUid());
-        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String document = documentSnapshot.getString("FirstName");
-                firstName[0] = document;
-                Log.d("First Name: ", firstName[0]);
-            }
-        });
-        return firstName[0];
     }
 }
