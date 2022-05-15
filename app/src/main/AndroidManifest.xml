@@ -39,6 +39,12 @@
 
         <activity android:name=".Login" />
 
+        <activity android:name=".DiseaseRegister" />
+
+        <activity android:name=".AllergyRegister" />
+
+        <activity android:name=".VaccineRegister" />
+
         <service
             android:name="MainActivity"
             android:foregroundServiceType="location">

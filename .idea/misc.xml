@@ -10,6 +10,8 @@
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/drawable/ic_medical_profile.xml" value="0.23333333333333334" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/drawable/textview_border.xml" value="0.1" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/drawable/tl_row.xml" value="0.291" />
+        <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/activity_allergy_register.xml" value="0.25" />
+        <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/activity_disease_register.xml" value="0.22" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/activity_maps.xml" value="0.18034447821681865" />
@@ -17,6 +19,7 @@
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/activity_medical_user2.xml" value="0.33" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/activity_normal_user.xml" value="0.33" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/activity_vaccine_register.xml" value="0.25" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/content_medical_user.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/fragment_chat.xml" value="0.18034447821681865" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/fragment_first.xml" value="0.17806484295845998" />
@@ -27,6 +30,7 @@
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/fragment_second.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/fragment_send_location.xml" value="0.33" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/list_medical_profile.xml" value="0.365625" />
+        <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/list_medical_profile2.xml" value="0.42700729927007297" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/nav_header.xml" value="0.5" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/layout/tl_row.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/vladp/AndroidStudioProjects/Licenta2/app/src/main/res/menu/drawer_menu.xml" value="0.33" />

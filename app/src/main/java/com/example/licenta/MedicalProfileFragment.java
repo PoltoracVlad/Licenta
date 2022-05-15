@@ -1,5 +1,6 @@
 package com.example.licenta;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +15,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 public class MedicalProfileFragment extends Fragment {
 
-    RecyclerView recyclerView;
+    RecyclerView recyclerViewDiseases, recyclerViewAllergies, recyclerViewVaccines;
+    FirestoreRecyclerAdapter adapterDisease, adapterAllergy, adapterVaccine;
     FirebaseFirestore firebaseFirestore;
-    FirestoreRecyclerAdapter adapter;
-
-    Button btnAddDisease;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    Button btnAddDisease, btnAddAllergy, btnAddVaccine;
 
     @Nullable
     @Override
@@ -34,16 +38,78 @@ public class MedicalProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        recyclerView = getView().findViewById(R.id.recyclerViewDiseases);
+        recyclerViewDiseases = getView().findViewById(R.id.recyclerViewDiseases);
+        recyclerViewAllergies = getView().findViewById(R.id.recyclerViewAllergies);
+        recyclerViewVaccines = getView().findViewById(R.id.recyclerViewVaccines);
         firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
         btnAddDisease = getView().findViewById(R.id.btnAddDisease);
+        btnAddAllergy = getView().findViewById(R.id.btnAddAllergy);
+        btnAddVaccine = getView().findViewById(R.id.btnAddVaccine);
 
-        Query query = firebaseFirestore.collection("Diseases");
-        FirestoreRecyclerOptions<MedicalProfile> options = new FirestoreRecyclerOptions.Builder<MedicalProfile>()
-                .setQuery(query, MedicalProfile.class)
+        assert firebaseUser != null;
+        showDiseases();
+        showAllergies();
+        showVaccines();
+
+        btnAddDisease.setOnClickListener(v -> startActivity(new Intent(getContext(), DiseaseRegister.class)));
+        btnAddAllergy.setOnClickListener(v -> startActivity(new Intent(getContext(), AllergyRegister.class)));
+        btnAddVaccine.setOnClickListener(v -> startActivity(new Intent(getContext(), VaccineRegister.class)));
+    }
+
+    private class DiseaseViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView nameText;
+        private TextView typeText;
+        private TextView descriptionText;
+
+        public DiseaseViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            nameText = itemView.findViewById(R.id.inputName);
+            typeText = itemView.findViewById(R.id.inputType);
+            descriptionText = itemView.findViewById(R.id.inputDescription);
+        }
+    }
+
+    private class AllergyViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView nameText;
+        private TextView symptomsText;
+        private TextView descriptionText;
+
+        public AllergyViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            nameText = itemView.findViewById(R.id.inputName);
+            symptomsText = itemView.findViewById(R.id.inputSymptoms);
+            descriptionText = itemView.findViewById(R.id.inputDescription);
+        }
+    }
+
+    private class VaccineViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView nameText;
+        private TextView typeText;
+        private TextView descriptionText;
+
+        public VaccineViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            nameText = itemView.findViewById(R.id.inputName);
+            typeText = itemView.findViewById(R.id.inputType);
+            descriptionText = itemView.findViewById(R.id.inputDescription);
+        }
+    }
+
+    private void showDiseases() {
+        Query query = firebaseFirestore.collection("Diseases").whereEqualTo("userId", firebaseUser.getUid());
+        FirestoreRecyclerOptions<DiseaseModel> options = new FirestoreRecyclerOptions.Builder<DiseaseModel>()
+                .setQuery(query, DiseaseModel.class)
                 .build();
 
-        adapter = new FirestoreRecyclerAdapter<MedicalProfile, DiseaseViewHolder>(options) {
+        adapterDisease = new FirestoreRecyclerAdapter<DiseaseModel, DiseaseViewHolder>(options) {
             @NonNull
             @Override
             public DiseaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,39 +118,85 @@ public class MedicalProfileFragment extends Fragment {
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull DiseaseViewHolder holder, int position, @NonNull MedicalProfile model) {
+            protected void onBindViewHolder(@NonNull DiseaseViewHolder holder, int position, @NonNull DiseaseModel model) {
                 holder.nameText.setText(model.getName());
                 holder.typeText.setText(model.getType());
+                holder.descriptionText.setText(model.getDescription());
             }
         };
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        recyclerViewDiseases.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewDiseases.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewDiseases.setAdapter(adapterDisease);
     }
 
-    private class DiseaseViewHolder extends RecyclerView.ViewHolder {
+    private void showAllergies() {
+        Query query = firebaseFirestore.collection("Allergies").whereEqualTo("userId", firebaseUser.getUid());
+        FirestoreRecyclerOptions<AllergyModel> options = new FirestoreRecyclerOptions.Builder<AllergyModel>()
+                .setQuery(query, AllergyModel.class)
+                .build();
 
-        private TextView nameText;
-        private TextView typeText;
+        adapterAllergy = new FirestoreRecyclerAdapter<AllergyModel, AllergyViewHolder>(options) {
+            @NonNull
+            @Override
+            public AllergyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_medical_profile2, parent, false);
+                return new AllergyViewHolder(view);
+            }
 
-        public DiseaseViewHolder(@NonNull View itemView) {
-            super(itemView);
+            @Override
+            protected void onBindViewHolder(@NonNull AllergyViewHolder holder, int position, @NonNull AllergyModel model) {
+                holder.nameText.setText(model.getName());
+                holder.symptomsText.setText(model.getSymptoms());
+                holder.descriptionText.setText(model.getDescription());
+            }
+        };
 
-            nameText = itemView.findViewById(R.id.inputName);
-            typeText = itemView.findViewById(R.id.inputType);
-        }
+        recyclerViewAllergies.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewAllergies.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewAllergies.setAdapter(adapterAllergy);
+    }
+
+    private void showVaccines() {
+        Query query = firebaseFirestore.collection("Vaccines").whereEqualTo("userId", firebaseUser.getUid());
+        FirestoreRecyclerOptions<VaccineModel> options = new FirestoreRecyclerOptions.Builder<VaccineModel>()
+                .setQuery(query, VaccineModel.class)
+                .build();
+
+        adapterVaccine = new FirestoreRecyclerAdapter<VaccineModel, VaccineViewHolder>(options) {
+            @NonNull
+            @Override
+            public VaccineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_medical_profile, parent, false);
+                return new VaccineViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull VaccineViewHolder holder, int position, @NonNull VaccineModel model) {
+                holder.nameText.setText(model.getName());
+                holder.typeText.setText(model.getType());
+                holder.descriptionText.setText(model.getDescription());
+            }
+        };
+
+        recyclerViewVaccines.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewVaccines.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewVaccines.setAdapter(adapterVaccine);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        adapter.stopListening();
+        adapterDisease.stopListening();
+        adapterAllergy.stopListening();
+        adapterVaccine.stopListening();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        adapter.startListening();
+        adapterDisease.startListening();
+        adapterAllergy.startListening();
+        adapterVaccine.startListening();
     }
 }

@@ -1,14 +1,12 @@
 package com.example.licenta;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,6 +44,8 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_SHORT).show();
                     checkTypeOfUser(authResult.getUser().getUid());
                 }).addOnFailureListener(e -> Toast.makeText(Login.this, "The Email or Password is incorrect", Toast.LENGTH_SHORT).show());
+            } else {
+                Toast.makeText(Login.this, "Please complete all the fields!", Toast.LENGTH_SHORT).show();
             }
         });
     }
