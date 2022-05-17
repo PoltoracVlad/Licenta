@@ -6,17 +6,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MedicalUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+    private int back_pressed = 0;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser currentUser;
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +49,8 @@ public class MedicalUser extends AppCompatActivity implements NavigationView.OnN
                     new SendLocationFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_location);
         }
+
+        updateNavHeader();
     }
 
     @Override
@@ -48,6 +59,10 @@ public class MedicalUser extends AppCompatActivity implements NavigationView.OnN
             case R.id.nav_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ProfileFragment()).commit();
+                break;
+            case R.id.nav_search:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new SearchFragment()).commit();
                 break;
             case R.id.nav_medical_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -72,7 +87,45 @@ public class MedicalUser extends AppCompatActivity implements NavigationView.OnN
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (back_pressed >= 1) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(getBaseContext(), "Press once again to exit", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    public void updateNavHeader() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navFirstName = headerView.findViewById(R.id.nav_first_name);
+        TextView navEmail = headerView.findViewById(R.id.nav_email);
+
+        if (currentUser != null) {
+            navEmail.setText(currentUser.getEmail());
+            DocumentReference df = firebaseFirestore.collection("Users").document(currentUser.getUid());
+            df.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot != null) {
+                        String fName = documentSnapshot.getString("FirstName");
+                        navFirstName.setText(fName);
+                    }
+                }
+            });
         }
     }
 }

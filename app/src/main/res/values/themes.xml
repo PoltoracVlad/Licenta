@@ -29,4 +29,9 @@
     <style name="Theme.Licenta.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="SearchStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:editTextColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
 </resources>
